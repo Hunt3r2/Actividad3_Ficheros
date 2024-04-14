@@ -1,6 +1,7 @@
 package ejercicio3;
 
 import java.awt.EventQueue;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -64,26 +65,35 @@ public class Tres_en_raya_fichero extends JFrame {
     }
 
     private void abrirJuego() {
+    	//fotos del jugador 1 y el jugador 2
         jugador1Icon = new ImageIcon(getClass().getResource("/ejercicio3/imagenes/Keanu_Reeves_2019.jpg"));
         jugador2Icon = new ImageIcon(getClass().getResource("/ejercicio3/imagenes/nicolas-cage-net-worth-through-the-years.jpg"));
-        juego = new Tres_en_raya(jugador1Icon, jugador2Icon);
+        //esto es para que se escalen las fotos al tamaño del boton
+        Image jugador1Image = jugador1Icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        Image jugador2Image = jugador2Icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        ImageIcon jugador1Icon = new ImageIcon(jugador1Image);
+        ImageIcon jugador2Icon = new ImageIcon(jugador2Image);
+        juego = new Tres_en_raya(this, jugador1Icon, jugador2Icon);
         juego.mostrarVentana();
     }
 
 
 
     private void verHistorial() {
+    	//creamos el archivo del historial
         File archivo = new File("historial.txt");
-        DefaultListModel<String> model = new DefaultListModel<>();
-        JList<String> list = new JList<>(model);
+        DefaultListModel model = new DefaultListModel();
+        JList list = new JList(model);
 
         try (FileReader fr = new FileReader(archivo);
              BufferedReader br = new BufferedReader(fr)) {
+        	//
             String linea;
             while ((linea = br.readLine()) != null) {
                 model.addElement(linea);
             }
         } catch (IOException e) {
+        	//si por alguna razon no se puede leer el historial, que avise al jugador
             JOptionPane.showMessageDialog(this, "Error al leer el historial", "Error", JOptionPane.ERROR_MESSAGE);
         }
 

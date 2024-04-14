@@ -26,22 +26,16 @@ public class Tres_en_raya extends JFrame implements ActionListener {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private boolean turno = true;
-    private ImageIcon jugador1, jugador2;
+    private ImageIcon jugador1Icon, jugador2Icon;
     private JLabel lblNewLabel;
     private JButton[][] botones = new JButton[3][3];
     private Tres_en_raya_fichero tres_fichero;
 
-    public Tres_en_raya(Tres_en_raya_fichero tres_fichero) {
-    	
+    public Tres_en_raya(Tres_en_raya_fichero tres_fichero, ImageIcon jugador1Icon, ImageIcon jugador2Icon) {
+    	this.jugador1Icon = jugador1Icon;
+        this.jugador2Icon = jugador2Icon;
     	
         this.tres_fichero = tres_fichero;
-        this.jugador1 = new ImageIcon("C:\\Users\\david\\Downloads\\CRUZ.png");
-        this.jugador2 = new ImageIcon("C:\\Users\\david\\Downloads\\circulo.png");
-
-        Image image1 = jugador1.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-        Image image2 = jugador2.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-        this.jugador1 = new ImageIcon(image1);
-        this.jugador2 = new ImageIcon(image2);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setBounds(100, 100, 834, 604);
         contentPane = new JPanel();
@@ -60,7 +54,7 @@ public class Tres_en_raya extends JFrame implements ActionListener {
                 panel.add(botones[i][j]);
             }
         }
-        this.lblNewLabel = new JLabel("turno de Jugador 1");
+        this.lblNewLabel = new JLabel("Le toca al jugador 1");
         lblNewLabel.setBounds(361, -17, 171, 140);
         contentPane.add(lblNewLabel);
 
@@ -88,11 +82,11 @@ public class Tres_en_raya extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         JButton boton = (JButton) e.getSource();
         if (turno) {
-            boton.setIcon(this.jugador1);
-            this.lblNewLabel.setText("Ronda de jugador 1");
+            boton.setIcon(this.jugador1Icon);
+            this.lblNewLabel.setText("Le toca al jugador 1");
         } else {
-            boton.setIcon(this.jugador2);
-            this.lblNewLabel.setText("Ronda de jugador 2");
+            boton.setIcon(this.jugador2Icon);
+            this.lblNewLabel.setText("Le toca al jugador 2");
         }
         boton.setEnabled(false);
         quienGana();
@@ -129,14 +123,14 @@ public class Tres_en_raya extends JFrame implements ActionListener {
 
     private void mostrarMensajeVictoria() {
         if (turno) {
-            JOptionPane.showMessageDialog(null, "Victoria de Jugador 1", "¡Felicidades!", JOptionPane.INFORMATION_MESSAGE);
-            // Guardar resultado en historial
-            guardarResultado("Victoria de Jugador 1");
+            JOptionPane.showMessageDialog(null, "Gana el jugador 1", "¡Felicidades!", JOptionPane.INFORMATION_MESSAGE);
+            // para guardar resultado en historial
+            guardarResultado("Gana el jugador 1");
             resetearJuego();
         } else {
-            JOptionPane.showMessageDialog(null, "Victoria de Jugador 2", "¡Felicidades!", JOptionPane.INFORMATION_MESSAGE);
-            // Guardar resultado en historial
-            guardarResultado("Victoria de Jugador 2");
+            JOptionPane.showMessageDialog(null, "Gana el jugador 2", "¡Felicidades!", JOptionPane.INFORMATION_MESSAGE);
+            // para guardar resultado en historial
+            guardarResultado("Gana el jugador 2");
             resetearJuego();
         }
     }
@@ -151,16 +145,17 @@ public class Tres_en_raya extends JFrame implements ActionListener {
 
         turno = true;
 
-        lblNewLabel.setText("Turno de Jugador 1");
+        lblNewLabel.setText("Le toca al jugador 1");
     }
 
     private void guardarResultado(String resultado) {
+    	//creo el archivo y meto la linea recibida que mando desde el metodo de mostrar el mensaje de victoria en el historial
         File archivo = new File("historial.txt");
         try (FileWriter fw = new FileWriter(archivo, true)) {
             fw.write(resultado + "\n");
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Error al guardar el resultado en el historial", "Error",
-                    JOptionPane.ERROR_MESSAGE);
+        	//si por alguna razon no se puede guardar el resultado, que salga un mensaje de error al jugador
+            JOptionPane.showMessageDialog(this, "Error al guardar el resultado en el historial", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
