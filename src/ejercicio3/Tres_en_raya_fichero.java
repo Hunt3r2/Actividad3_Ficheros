@@ -17,6 +17,12 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.awt.Color;
+import javax.swing.border.TitledBorder;
+import javax.swing.border.LineBorder;
+import java.awt.Toolkit;
 
 public class Tres_en_raya_fichero extends JFrame {
     private static final long serialVersionUID = 1L;
@@ -39,6 +45,9 @@ public class Tres_en_raya_fichero extends JFrame {
     }
 
     public Tres_en_raya_fichero() {
+    	setIconImage(Toolkit.getDefaultToolkit().getImage(Tres_en_raya_fichero.class.getResource("/ejercicio3/imagenes/nicolas-cage-net-worth-through-the-years.jpg")));
+    	setResizable(false);
+    	setTitle("Tres en raya 100% real no fake un link mega");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 450, 300);
         contentPane = new JPanel();
@@ -46,22 +55,42 @@ public class Tres_en_raya_fichero extends JFrame {
         setContentPane(contentPane);
 
         JButton btnJugar = new JButton("Jugar");
+        btnJugar.setBorder(new LineBorder(new Color(0, 128, 128), 3, true));
+        btnJugar.setFont(new Font("Century Gothic", Font.PLAIN, 11));
         btnJugar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 abrirJuego();
             }
         });
-        btnJugar.setBounds(75, 50, 100, 30);
+        
+        JPanel panel = new JPanel();
+        panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 4, true), "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        panel.setBackground(new Color(128, 0, 0));
+        panel.setBounds(111, 44, 203, 50);
+        contentPane.add(panel);
+        
+        JLabel lblTitulo = new JLabel("Menu Tres en raya");
+        lblTitulo.setForeground(new Color(255, 255, 255));
+        panel.add(lblTitulo);
+        lblTitulo.setFont(new Font("Century Gothic", Font.PLAIN, 21));
+        btnJugar.setBounds(167, 105, 100, 30);
         contentPane.add(btnJugar);
 
         JButton btnHistorial = new JButton("Historial");
+        btnHistorial.setBorder(new LineBorder(new Color(0, 139, 139), 3, true));
+        btnHistorial.setFont(new Font("Century Gothic", Font.PLAIN, 11));
         btnHistorial.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 verHistorial();
             }
         });
-        btnHistorial.setBounds(250, 50, 100, 30);
+        btnHistorial.setBounds(167, 146, 100, 30);
         contentPane.add(btnHistorial);
+        
+        JLabel lblFondo = new JLabel("");
+        lblFondo.setIcon(new ImageIcon(Tres_en_raya_fichero.class.getResource("/ejercicio3/imagenes/fondo.gif")));
+        lblFondo.setBounds(0, 0, 434, 261);
+        contentPane.add(lblFondo);
     }
 
     private void abrirJuego() {
@@ -102,6 +131,7 @@ public class Tres_en_raya_fichero extends JFrame {
     }
 
     public void cerrarJuego() {
+    	//cierra el juego
         juego.dispose();
         juego = null;
     }

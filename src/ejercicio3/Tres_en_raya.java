@@ -20,6 +20,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.Color;
 import java.awt.GridLayout;
+import javax.swing.border.LineBorder;
+import java.awt.Font;
+import java.awt.Toolkit;
 
 public class Tres_en_raya extends JFrame implements ActionListener {
 
@@ -30,8 +33,15 @@ public class Tres_en_raya extends JFrame implements ActionListener {
     private JLabel lblNewLabel;
     private JButton[][] botones = new JButton[3][3];
     private Tres_en_raya_fichero tres_fichero;
+    private JLabel lblLebron;
+    private JLabel lblLebron_1;
+    private JLabel lblLebron_2;
+    private JLabel lblLebron_3;
 
     public Tres_en_raya(Tres_en_raya_fichero tres_fichero, ImageIcon jugador1Icon, ImageIcon jugador2Icon) {
+    	setResizable(false);
+    	setIconImage(Toolkit.getDefaultToolkit().getImage(Tres_en_raya.class.getResource("/ejercicio3/imagenes/nicolas-cage-net-worth-through-the-years.jpg")));
+    	setTitle("Tres en raya");
     	this.jugador1Icon = jugador1Icon;
         this.jugador2Icon = jugador2Icon;
     	
@@ -39,12 +49,13 @@ public class Tres_en_raya extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setBounds(100, 100, 834, 604);
         contentPane = new JPanel();
+        contentPane.setBackground(new Color(224, 255, 255));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null);
         JPanel panel = new JPanel();
-        panel.setBorder(new MatteBorder(5, 5, 5, 5, (Color) new Color(64, 0, 128)));
-        panel.setBounds(150, 89, 576, 414);
+        panel.setBorder(new LineBorder(new Color(135, 206, 250), 4, true));
+        panel.setBounds(122, 89, 576, 414);
         contentPane.add(panel);
         panel.setLayout(new GridLayout(3, 3, 0, 0));
         for (int i = 0; i < 3; i++) {
@@ -54,14 +65,39 @@ public class Tres_en_raya extends JFrame implements ActionListener {
                 panel.add(botones[i][j]);
             }
         }
-        this.lblNewLabel = new JLabel("Le toca al jugador 1");
+        this.lblNewLabel = new JLabel("");
+        lblNewLabel.setFont(new Font("Century Gothic", Font.PLAIN, 11));
         lblNewLabel.setBounds(361, -17, 171, 140);
         contentPane.add(lblNewLabel);
+        
+        lblLebron = new JLabel("");
+        lblLebron.setBorder(new LineBorder(new Color(173, 216, 230), 3, true));
+        lblLebron.setIcon(new ImageIcon(Tres_en_raya.class.getResource("/ejercicio3/imagenes/LeBronJames-YouAreMySunshineJamaicanVersion-ezgif.com-resize.gif")));
+        lblLebron.setBounds(10, 11, 102, 100);
+        contentPane.add(lblLebron);
+        
+        lblLebron_1 = new JLabel("");
+        lblLebron_1.setBorder(new LineBorder(new Color(173, 216, 230), 3, true));
+        lblLebron_1.setIcon(new ImageIcon(Tres_en_raya.class.getResource("/ejercicio3/imagenes/LeBronJames-YouAreMySunshineJamaicanVersion-ezgif.com-resize.gif")));
+        lblLebron_1.setBounds(706, 11, 102, 100);
+        contentPane.add(lblLebron_1);
+        
+        lblLebron_2 = new JLabel("");
+        lblLebron_2.setBorder(new LineBorder(new Color(173, 216, 230), 3, true));
+        lblLebron_2.setIcon(new ImageIcon(Tres_en_raya.class.getResource("/ejercicio3/imagenes/LeBronJames-YouAreMySunshineJamaicanVersion-ezgif.com-resize.gif")));
+        lblLebron_2.setBounds(706, 454, 102, 100);
+        contentPane.add(lblLebron_2);
+        
+        lblLebron_3 = new JLabel("");
+        lblLebron_3.setBorder(new LineBorder(new Color(173, 216, 230), 3, true));
+        lblLebron_3.setIcon(new ImageIcon(Tres_en_raya.class.getResource("/ejercicio3/imagenes/LeBronJames-YouAreMySunshineJamaicanVersion-ezgif.com-resize.gif")));
+        lblLebron_3.setBounds(10, 454, 102, 100);
+        contentPane.add(lblLebron_3);
 
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                cerrarJuego();
+                dispose();
             }
         });
     }
@@ -82,11 +118,12 @@ public class Tres_en_raya extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         JButton boton = (JButton) e.getSource();
         if (turno) {
+        	//cuando cambie el turno, que cambie tanto la etiqueta de arriba de texto, como el icono
             boton.setIcon(this.jugador1Icon);
-            this.lblNewLabel.setText("Le toca al jugador 1");
+            this.lblNewLabel.setText("Le toca al jugador 2");
         } else {
             boton.setIcon(this.jugador2Icon);
-            this.lblNewLabel.setText("Le toca al jugador 2");
+            this.lblNewLabel.setText("Le toca al jugador 1");
         }
         boton.setEnabled(false);
         quienGana();
@@ -95,12 +132,14 @@ public class Tres_en_raya extends JFrame implements ActionListener {
 
     public void quienGana() {
         for (int i = 0; i < 3; i++) {
+        	//este for verifica las filas, si los iconos en dichas posiciones son iguales, que muestre el mensaje de victoria
             if (botones[i][0].getIcon() == botones[i][1].getIcon() && botones[i][0].getIcon() == botones[i][2].getIcon()
                     && botones[i][0].getIcon() != null) {
                 mostrarMensajeVictoria();
                 return;
             }
         }
+        //este for verifica las columnas, como en el de arriba, si los iconos en dichas posiciones son iguales, que muestre el mensaje de victoria
         for (int j = 0; j < 3; j++) {
             if (botones[0][j].getIcon() == botones[1][j].getIcon() && botones[0][j].getIcon() == botones[2][j].getIcon()
                     && botones[0][j].getIcon() != null) {
@@ -108,6 +147,7 @@ public class Tres_en_raya extends JFrame implements ActionListener {
                 return;
             }
         }
+        //esto es para que lo verifique diagonalmente, si los iconos en dichas posiciones son iguales, que muestre el mensaje de victoria
         if (botones[0][0].getIcon() == botones[1][1].getIcon() && botones[0][0].getIcon() == botones[2][2].getIcon()
                 && botones[0][0].getIcon() != null) {
             mostrarMensajeVictoria();
@@ -138,6 +178,7 @@ public class Tres_en_raya extends JFrame implements ActionListener {
     public void resetearJuego() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
+            	//pone el icono a null y vuelve a activar los botones que estaban presionados
                 botones[i][j].setIcon(null);
                 botones[i][j].setEnabled(true);
             }
