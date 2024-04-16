@@ -39,7 +39,9 @@ public class Tres_en_raya extends JFrame implements ActionListener {
     private JLabel lblLebron_3;
 
     public Tres_en_raya(Tres_en_raya_fichero tres_fichero, ImageIcon jugador1Icon, ImageIcon jugador2Icon) {
+    	//para que no pueda cambiarse el tamaño de la ventana
     	setResizable(false);
+    	//un icono bien fresco para la ventana
     	setIconImage(Toolkit.getDefaultToolkit().getImage(Tres_en_raya.class.getResource("/ejercicio3/imagenes/nicolas-cage-net-worth-through-the-years.jpg")));
     	setTitle("Tres en raya");
     	this.jugador1Icon = jugador1Icon;
@@ -93,6 +95,59 @@ public class Tres_en_raya extends JFrame implements ActionListener {
         lblLebron_3.setIcon(new ImageIcon(Tres_en_raya.class.getResource("/ejercicio3/imagenes/LeBronJames-YouAreMySunshineJamaicanVersion-ezgif.com-resize.gif")));
         lblLebron_3.setBounds(10, 454, 102, 100);
         contentPane.add(lblLebron_3);
+        
+        JPanel panel_1 = new JPanel();
+        panel_1.setBackground(new Color(173, 216, 230));
+        panel_1.setBorder(new LineBorder(new Color(0, 206, 209), 3, true));
+        panel_1.setBounds(10, 122, 102, 321);
+        contentPane.add(panel_1);
+        
+        JLabel lblEsqueleto = new JLabel("");
+        lblEsqueleto.setIcon(new ImageIcon(Tres_en_raya.class.getResource("/ejercicio3/imagenes/aimded-ezgif.com-resize.gif")));
+        panel_1.add(lblEsqueleto);
+        
+        JPanel panel_1_1 = new JPanel();
+        panel_1_1.setBackground(new Color(173, 216, 230));
+        panel_1_1.setBorder(new LineBorder(new Color(0, 206, 209), 3, true));
+        panel_1_1.setBounds(708, 122, 102, 321);
+        contentPane.add(panel_1_1);
+        
+        JLabel lblEsqueleto_1 = new JLabel("");
+        lblEsqueleto_1.setIcon(new ImageIcon(Tres_en_raya.class.getResource("/ejercicio3/imagenes/aimded-ezgif.com-resize.gif")));
+        panel_1_1.add(lblEsqueleto_1);
+        //pequeño boton que creé si no te gustan las imagenes
+        JButton btnNewButton = new JButton("Quitar imagenes");
+        btnNewButton.setBackground(new Color(240, 255, 255));
+        btnNewButton.setBorder(new LineBorder(new Color(135, 206, 235), 3, true));
+        btnNewButton.setFocusable(false);
+        btnNewButton.setFont(new Font("Century Gothic", Font.PLAIN, 11));
+        btnNewButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+                
+                if(btnNewButton.getText()=="Mostrar imagenes") {
+                	btnNewButton.setText("Quitar imagenes");
+                	panel_1.setVisible(true);
+            		panel_1_1.setVisible(true);
+                	lblLebron.setVisible(true);
+                    lblLebron_2.setVisible(true);
+                    lblLebron_3.setVisible(true);
+                    lblLebron_1.setVisible(true);
+                }else {
+                	panel_1.setVisible(false);
+            		panel_1_1.setVisible(false);
+                    lblLebron_3.setVisible(false);
+                    lblLebron_1.setVisible(false);
+                    lblLebron_2.setVisible(false);
+                    lblLebron.setVisible(false);
+                    btnNewButton.setText("Mostrar imagenes");
+                }
+        		
+        	}
+        });
+      
+        
+        btnNewButton.setBounds(340, 514, 140, 23);
+        contentPane.add(btnNewButton);
 
         addWindowListener(new WindowAdapter() {
             @Override
@@ -190,10 +245,12 @@ public class Tres_en_raya extends JFrame implements ActionListener {
     }
 
     private void guardarResultado(String resultado) {
-    	//creo el archivo y meto la linea recibida que mando desde el metodo de mostrar el mensaje de victoria en el historial
-        File archivo = new File("historial.txt");
-        try (FileWriter fw = new FileWriter(archivo, true)) {
-            fw.write(resultado + "\n");
+    	//creo el archivo, meto la ruta del archivo y meto la linea recibida que 
+    	//mando desde el metodo de mostrar el mensaje de victoria en el historial
+        File archivo = new File("src"+File.separator+"ficheros" + File.separator + "historial.txt");
+        try (FileWriter escritorFichero = new FileWriter(archivo, true)) {
+        	// el resultado con \n es para que cambie de linea cada vez que escriba
+            escritorFichero.write(resultado + "\n");
         } catch (IOException e) {
         	//si por alguna razon no se puede guardar el resultado, que salga un mensaje de error al jugador
             JOptionPane.showMessageDialog(this, "Error al guardar el resultado en el historial", "Error", JOptionPane.ERROR_MESSAGE);

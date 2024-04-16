@@ -55,6 +55,7 @@ public class Tres_en_raya_fichero extends JFrame {
         setContentPane(contentPane);
 
         JButton btnJugar = new JButton("Jugar");
+        btnJugar.setFocusable(false);
         btnJugar.setBorder(new LineBorder(new Color(0, 128, 128), 3, true));
         btnJugar.setFont(new Font("Century Gothic", Font.PLAIN, 11));
         btnJugar.addActionListener(new ActionListener() {
@@ -77,6 +78,7 @@ public class Tres_en_raya_fichero extends JFrame {
         contentPane.add(btnJugar);
 
         JButton btnHistorial = new JButton("Historial");
+        btnHistorial.setFocusable(false);
         btnHistorial.setBorder(new LineBorder(new Color(0, 139, 139), 3, true));
         btnHistorial.setFont(new Font("Century Gothic", Font.PLAIN, 11));
         btnHistorial.addActionListener(new ActionListener() {
@@ -110,7 +112,7 @@ public class Tres_en_raya_fichero extends JFrame {
 
     private void verHistorial() {
     	//creamos el archivo del historial
-        File archivo = new File("historial.txt");
+        File archivo = new File("src"+File.separator+"ficheros"+File.separator+"historial.txt");
         DefaultListModel model = new DefaultListModel();
         JList list = new JList(model);
 
