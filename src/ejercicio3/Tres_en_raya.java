@@ -12,6 +12,7 @@ import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -23,22 +24,25 @@ import java.awt.GridLayout;
 import javax.swing.border.LineBorder;
 import java.awt.Font;
 import java.awt.Toolkit;
-
-public class Tres_en_raya extends JFrame implements ActionListener {
+//extends JDi
+public class Tres_en_raya extends JDialog {
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private boolean turno = true;
     private ImageIcon jugador1Icon, jugador2Icon;
-    private JLabel lblNewLabel;
+    private JLabel lblTexto;
     private JButton[][] botones = new JButton[3][3];
     private Tres_en_raya_fichero tres_fichero;
+    //LeBron
     private JLabel lblLebron;
     private JLabel lblLebron_1;
     private JLabel lblLebron_2;
     private JLabel lblLebron_3;
 
-    public Tres_en_raya(Tres_en_raya_fichero tres_fichero, ImageIcon jugador1Icon, ImageIcon jugador2Icon) {
+    public Tres_en_raya(Tres_en_raya_fichero tres_fichero, ImageIcon jugador1Icon, ImageIcon jugador2Icon, JFrame ventana) {
+    	//esto y el JDialog es para que no me deje acceder a la anterior ventana
+    	super(ventana, true);
     	//para que no pueda cambiarse el tamaño de la ventana
     	setResizable(false);
     	//un icono bien fresco para la ventana
@@ -48,7 +52,7 @@ public class Tres_en_raya extends JFrame implements ActionListener {
         this.jugador2Icon = jugador2Icon;
     	
         this.tres_fichero = tres_fichero;
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 834, 604);
         contentPane = new JPanel();
         contentPane.setBackground(new Color(224, 255, 255));
@@ -63,14 +67,25 @@ public class Tres_en_raya extends JFrame implements ActionListener {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 botones[i][j] = new JButton();
-                botones[i][j].addActionListener(this);
                 panel.add(botones[i][j]);
             }
         }
-        this.lblNewLabel = new JLabel("");
-        lblNewLabel.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-        lblNewLabel.setBounds(361, -17, 171, 140);
-        contentPane.add(lblNewLabel);
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                final int fila = i;
+                final int columna = j;
+                botones[i][j].addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                    	//cuando se presione algun boton, llama al metodo
+                        botonPresionado(fila, columna);
+                    }
+                });
+            }
+        }
+        this.lblTexto = new JLabel("");
+        lblTexto.setFont(new Font("Century Gothic", Font.PLAIN, 11));
+        lblTexto.setBounds(361, -17, 171, 140);
+        contentPane.add(lblTexto);
         
         lblLebron = new JLabel("");
         lblLebron.setBorder(new LineBorder(new Color(173, 216, 230), 3, true));
@@ -161,28 +176,8 @@ public class Tres_en_raya extends JFrame implements ActionListener {
         setVisible(true);
     }
 
-    public void cerrarJuego() {
-        tres_fichero.cerrarJuego();
-    }
-
     public void Pasarturno() {
         turno = !turno;
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        JButton boton = (JButton) e.getSource();
-        if (turno) {
-        	//cuando cambie el turno, que cambie tanto la etiqueta de arriba de texto, como el icono
-            boton.setIcon(this.jugador1Icon);
-            this.lblNewLabel.setText("Le toca al jugador 2");
-        } else {
-            boton.setIcon(this.jugador2Icon);
-            this.lblNewLabel.setText("Le toca al jugador 1");
-        }
-        boton.setEnabled(false);
-        quienGana();
-        Pasarturno();
     }
 
     public void quienGana() {
@@ -241,7 +236,7 @@ public class Tres_en_raya extends JFrame implements ActionListener {
 
         turno = true;
 
-        lblNewLabel.setText("Le toca al jugador 1");
+        lblTexto.setText("Le toca al jugador 1");
     }
 
     private void guardarResultado(String resultado) {
@@ -255,5 +250,20 @@ public class Tres_en_raya extends JFrame implements ActionListener {
         	//si por alguna razon no se puede guardar el resultado, que salga un mensaje de error al jugador
             JOptionPane.showMessageDialog(this, "Error al guardar el resultado en el historial", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+    //metodo para cuando se presione los botones
+    private void botonPresionado(int fila, int columna) {
+        JButton boton = botones[fila][columna];
+        if (turno) {
+        	//cuando cambie el turno, que cambie tanto la etiqueta de arriba de texto, como el icono
+            boton.setIcon(this.jugador1Icon);
+            this.lblTexto.setText("Le toca al jugador 2");
+        } else {
+            boton.setIcon(this.jugador2Icon);
+            this.lblTexto.setText("Le toca al jugador 1");
+        }
+        boton.setEnabled(false);
+        quienGana();
+        Pasarturno();
     }
 }

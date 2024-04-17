@@ -12,6 +12,7 @@ import java.io.IOException;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -88,7 +89,7 @@ public class Tres_en_raya_fichero extends JFrame {
         });
         btnHistorial.setBounds(167, 146, 100, 30);
         contentPane.add(btnHistorial);
-        
+        //el fondo del menú
         JLabel lblFondo = new JLabel("");
         lblFondo.setIcon(new ImageIcon(Tres_en_raya_fichero.class.getResource("/ejercicio3/imagenes/fondo.gif")));
         lblFondo.setBounds(0, 0, 434, 261);
@@ -104,7 +105,7 @@ public class Tres_en_raya_fichero extends JFrame {
         Image jugador2Image = jugador2Icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         ImageIcon jugador1Icon = new ImageIcon(jugador1Image);
         ImageIcon jugador2Icon = new ImageIcon(jugador2Image);
-        juego = new Tres_en_raya(this, jugador1Icon, jugador2Icon);
+        juego = new Tres_en_raya(this, jugador1Icon, jugador2Icon, null);
         juego.mostrarVentana();
     }
 
@@ -116,11 +117,13 @@ public class Tres_en_raya_fichero extends JFrame {
         DefaultListModel model = new DefaultListModel();
         JList list = new JList(model);
 
-        try (FileReader fr = new FileReader(archivo);
-             BufferedReader br = new BufferedReader(fr)) {
-        	//
+        try (FileReader lectorFichero = new FileReader(archivo);
+             BufferedReader lectorBuffered = new BufferedReader(lectorFichero)) {
+        	//este string lo utilizo para almacenar las lineas de texto que lee
             String linea;
-            while ((linea = br.readLine()) != null) {
+            //mientras la linea no sea igual a null, lo que significa que no esté vacia
+            while ((linea = lectorBuffered.readLine()) != null) {
+            	//que se añada a la lista
                 model.addElement(linea);
             }
         } catch (IOException e) {
@@ -130,11 +133,5 @@ public class Tres_en_raya_fichero extends JFrame {
 
         JScrollPane scrollPane = new JScrollPane(list);
         JOptionPane.showMessageDialog(this, scrollPane, "Historial de partidas", JOptionPane.PLAIN_MESSAGE);
-    }
-
-    public void cerrarJuego() {
-    	//cierra el juego
-        juego.dispose();
-        juego = null;
     }
 }

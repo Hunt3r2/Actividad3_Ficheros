@@ -3,3 +3,5 @@ Gana el jugador 1
 Gana el jugador 2
 Gana el jugador 2
 Gana el jugador 2
+Gana el jugador 1
+Gana el jugador 2
