@@ -2,6 +2,7 @@ package ejercicio3;
 
 import java.awt.EventQueue;
 import java.awt.Image;
+import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -103,6 +104,7 @@ public class Tres_en_raya_fichero extends JFrame {
         //esto es para que se escalen las fotos al tamaño del boton
         Image jugador1Image = jugador1Icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         Image jugador2Image = jugador2Icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        //creo nuevas instancias con la imagen ya reescalada
         ImageIcon jugador1Icon = new ImageIcon(jugador1Image);
         ImageIcon jugador2Icon = new ImageIcon(jugador2Image);
         juego = new Tres_en_raya(this, jugador1Icon, jugador2Icon, null);
@@ -112,7 +114,7 @@ public class Tres_en_raya_fichero extends JFrame {
 
 
     private void verHistorial() {
-    	//creamos el archivo del historial
+    	//creo la instancia archivo que tendrá la ruta del archivo de texto del historial
         File archivo = new File("src"+File.separator+"ficheros"+File.separator+"historial.txt");
         DefaultListModel model = new DefaultListModel();
         JList list = new JList(model);
@@ -123,14 +125,16 @@ public class Tres_en_raya_fichero extends JFrame {
             String linea;
             //mientras la linea no sea igual a null, lo que significa que no esté vacia
             while ((linea = lectorBuffered.readLine()) != null) {
-            	//que se añada a la lista
+            	//que se añada a dicha linea a la lista
                 model.addElement(linea);
             }
         } catch (IOException e) {
-        	//si por alguna razon no se puede leer el historial, que avise al jugador
-            JOptionPane.showMessageDialog(this, "Error al leer el historial", "Error", JOptionPane.ERROR_MESSAGE);
+        	e.printStackTrace();
         }
 
+        //creo un scrollPane ya que haciendo pruebas me di cuenta de que por cada linea de texto,
+        //la ventana se hacia cada vez mas grande, asi que de esta manera la ventana permanece con el mismo tamaño
+        //por ultimo, creo la ventana del historial y hago que muestre la lista 
         JScrollPane scrollPane = new JScrollPane(list);
         JOptionPane.showMessageDialog(this, scrollPane, "Historial de partidas", JOptionPane.PLAIN_MESSAGE);
     }

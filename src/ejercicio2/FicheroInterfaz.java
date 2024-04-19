@@ -80,7 +80,8 @@ public class FicheroInterfaz extends JFrame {
             //creo un scroll pane y dentro de ahí meto el texto guardado
             JScrollPane scrollPane = new JScrollPane(textAreaMostrado);
             scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-            
+            //hago que no se pueda editar el texto mostrado
+            textAreaMostrado.setEditable(false);
             String linea;
             //el bucle se ejecuta hasta que encuentra alguna una linea en null
             while ((linea = lectorBuffered.readLine()) != null) {
